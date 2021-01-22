@@ -1,0 +1,4 @@
+com/statistics/TestingWebApplicationTests.java
+ com.statistics.TestingWebApplicationTests
+com/statistics/SmokeTest.java
+ com.statistics.SmokeTest
