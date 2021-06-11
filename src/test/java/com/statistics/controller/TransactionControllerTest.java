@@ -33,17 +33,11 @@ public class TransactionControllerTest {
 	@Mock
 	TransactionService transactionService;
 	
-	String currentTimestamp;
-	
-	Transaction t0;
-	Transaction t1;
-	Transaction t2;
-	Transaction t3;
-	Transaction t4;
+	String currentTimestamp;	
+	Transaction t0, t1, t2, t3, t4;
 	
 	@BeforeEach
 	public void init() {
-		
 		MockitoAnnotations.initMocks(this);
 		
 		currentTimestamp = DateTimeFormatter.ISO_INSTANT.format(ZonedDateTime.now());
