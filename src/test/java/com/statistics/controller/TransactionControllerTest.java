@@ -29,19 +29,17 @@ public class TransactionControllerTest {
 
 	@InjectMocks
 	TransactionController transactionController;
-	
 	@Mock
 	TransactionService transactionService;
 	
-	String currentTimestamp;	
 	Transaction t0, t1, t2, t3, t4;
 	
 	@BeforeEach
 	public void init() {
 		MockitoAnnotations.initMocks(this);
 		
-		currentTimestamp = DateTimeFormatter.ISO_INSTANT.format(ZonedDateTime.now());
-
+		String currentTimestamp = DateTimeFormatter.ISO_INSTANT.format(ZonedDateTime.now());
+		
 		t0 = new Transaction(null, currentTimestamp);
 		t1 = new Transaction("9000.00", DateTimeFormatter.ISO_INSTANT.format(ZonedDateTime.now().plusSeconds(120)));
 		t2 = new Transaction("9000.00", DateTimeFormatter.ISO_INSTANT.format(ZonedDateTime.now().minusSeconds(120)));
@@ -52,34 +50,27 @@ public class TransactionControllerTest {
 	public void testSaveTransaction() {
 		
 		when(transactionService.saveTransaction(ArgumentMatchers.any(Transaction.class))).thenReturn(HttpStatus.BAD_REQUEST, HttpStatus.UNPROCESSABLE_ENTITY, 
-			HttpStatus.NO_CONTENT, HttpStatus.CREATED);
+				HttpStatus.NO_CONTENT, HttpStatus.CREATED);
 		
-		ResponseEntity<HttpStatus> res0 = transactionController.saveTransaction(t0);
-		ResponseEntity<HttpStatus> res1 = transactionController.saveTransaction(t1);
-		ResponseEntity<HttpStatus> res2 = transactionController.saveTransaction(t2);
-		ResponseEntity<HttpStatus> res3 = transactionController.saveTransaction(t3);
-		
-		assertEquals(HttpStatus.BAD_REQUEST, res0.getStatusCode());
-		assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, res1.getStatusCode());
-		assertEquals(HttpStatus.NO_CONTENT, res2.getStatusCode());
-		assertEquals(HttpStatus.CREATED, res3.getStatusCode());
+		assertEquals(HttpStatus.BAD_REQUEST, transactionController.saveTransaction(t0).getStatusCode());
+		assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, transactionController.saveTransaction(t1).getStatusCode());
+		assertEquals(HttpStatus.NO_CONTENT, transactionController.saveTransaction(t2).getStatusCode());
+		assertEquals(HttpStatus.CREATED, transactionController.saveTransaction(t3).getStatusCode());
 	}
 
 	@Test
 	public void testDeleteTransaction() {
+		ResponseEntity<HttpStatus> res0 = new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		
 		doNothing().when(transactionService).deleteTransactions();
-		
-		ResponseEntity<HttpStatus> res0 = new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		assertThat(transactionController.deleteTransactions().equals(res0));
 	}
 
 	@Test
 	public void testGetAll() {
+		ResponseEntity<List<Transaction>> res0 = new ResponseEntity<>(Arrays.asList(t3), HttpStatus.OK);
 				
 		when(transactionService.getAll()).thenReturn(Arrays.asList(t3));
-
-		ResponseEntity<List<Transaction>> res0 = new ResponseEntity<>(Arrays.asList(t3), HttpStatus.OK);
 		assertThat(transactionController.getAll().equals(res0));
 	}
 
