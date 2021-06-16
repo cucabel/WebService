@@ -3,10 +3,7 @@ package com.statistics.controller;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,32 +22,20 @@ public class StatisticsControllerTest {
 
 	@InjectMocks
 	StatisticController statisticController;
-
 	@Mock
 	StatisticService statisticService;
-	
-	String currentTimestamp;
-	Statistic statistic;
 		
 	@BeforeEach
 	public void init() {
-		
 		MockitoAnnotations.initMocks(this);
-		
-		currentTimestamp = DateTimeFormatter.ISO_INSTANT.format(ZonedDateTime.now());
-		
-		List<String> amounts = new ArrayList<>();
-		amounts.add("9000.00");
-		statistic = new Statistic(amounts);
 	}
-
 
 	@Test
 	public void testLast60secTransactionsStatistic() {
-				
-		when(statisticService.getStatistic()).thenReturn(statistic);
-		
+		Statistic statistic = new Statistic(Arrays.asList("9000.00"));
 		ResponseEntity<Statistic> response = new ResponseEntity<>(statistic, HttpStatus.OK);
+
+		when(statisticService.getStatistic()).thenReturn(statistic);
 		assertThat(statisticController.getStatistic().equals(response));
 	}
 
