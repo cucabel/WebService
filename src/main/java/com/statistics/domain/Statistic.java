@@ -16,8 +16,8 @@ public class Statistic {
 	public Statistic() {
 	}
 
-	public Statistic(List<String> amountsList) {
-		statistics(amountsList);
+	public Statistic(List<String> amounts) {
+		calculateStatistics(amounts);
 	}
 
 	public BigDecimal getSum() {
@@ -60,17 +60,19 @@ public class Statistic {
 		this.count = count;
 	}
 
-	protected void statistics(List<String> amountsList) {
+	protected void calculateStatistics(List<String> amounts) {
 
-		List<Double> i = amountsList.stream().map(Double::parseDouble).collect(Collectors.toList());
+		List<Double> i = amounts.stream().map(Double::parseDouble).collect(Collectors.toList());
 		DoubleSummaryStatistics s = i.stream().mapToDouble(Double::doubleValue).summaryStatistics();
 
 		this.sum = new BigDecimal(s.getSum()).setScale(2, BigDecimal.ROUND_HALF_UP);
 		this.avg = new BigDecimal(s.getAverage()).setScale(2, BigDecimal.ROUND_HALF_UP);
 		this.count = s.getCount();
-		this.max = (count == 0) ? BigDecimal.ZERO.setScale(2, BigDecimal.ROUND_HALF_UP)
+		this.max = (count == 0) 
+				? BigDecimal.ZERO.setScale(2, BigDecimal.ROUND_HALF_UP)
 				: new BigDecimal(s.getMax()).setScale(2, BigDecimal.ROUND_HALF_UP);
-		this.min = (count == 0) ? BigDecimal.ZERO.setScale(2, BigDecimal.ROUND_HALF_UP)
+		this.min = (count == 0) 
+				? BigDecimal.ZERO.setScale(2, BigDecimal.ROUND_HALF_UP)
 				: new BigDecimal(s.getMin()).setScale(2, BigDecimal.ROUND_HALF_UP);
 	}
 

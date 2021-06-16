@@ -19,8 +19,8 @@ public class StatisticController {
 
 	// returns the statistics computed on the transactions within the last 60 seconds
 	@GetMapping
-	public ResponseEntity<Statistic> getStatistic() {
-		return new ResponseEntity<>(statisticService.getStatistic(), HttpStatus.OK);
+	public ResponseEntity<Statistic> calcStatLast60SecTrans() {
+		return new ResponseEntity<>(statisticService.calcStatLast60SecTrans(), HttpStatus.OK);
 	}
 
 }

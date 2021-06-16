@@ -22,13 +22,13 @@ public class TransactionController {
 	TransactionService transactionService;
 
 	@PostMapping
-	public ResponseEntity<HttpStatus> saveTransaction(@RequestBody Transaction transaction) {
-		return new ResponseEntity<>(transactionService.saveTransaction(transaction));
+	public ResponseEntity<HttpStatus> save(@RequestBody Transaction transaction) {
+		return new ResponseEntity<>(transactionService.save(transaction));
 	}
 
 	@DeleteMapping
-	public ResponseEntity<HttpStatus> deleteTransactions() {
-		transactionService.deleteTransactions();
+	public ResponseEntity<HttpStatus> deleteAll() {
+		transactionService.deleteAll();
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 

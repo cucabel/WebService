@@ -34,9 +34,8 @@ public class Transaction {
 		this.timestamp = timestamp;
 	}
 
-	// validations
 	// if any of the fields, timeStamp and amount, are not parsed
-	public boolean parse() {
+	public boolean validateIsParsed() {
 
 		try {
 			DateTimeFormatter.ISO_INSTANT.parse(this.getTimestamp());
@@ -51,7 +50,7 @@ public class Transaction {
 	}
 
 	// if the transaction date is in the future
-	public boolean future() {
+	public boolean validateIsFuture() {
 
 		if (Instant.from(DateTimeFormatter.ISO_INSTANT.parse(this.getTimestamp()))
 				.isAfter(Instant.from(DateTimeFormatter.ISO_INSTANT.parse(DateTimeFormatter.ISO_INSTANT.format(ZonedDateTime.now())))))
@@ -61,7 +60,7 @@ public class Transaction {
 	}
 
 	// if the transaction is older than 60 seconds
-	public boolean older() {
+	public boolean validateIsOlder() {
 
 		if (Instant.from(DateTimeFormatter.ISO_INSTANT.parse(this.getTimestamp()))
 				.isBefore(Instant.from(DateTimeFormatter.ISO_INSTANT.parse(DateTimeFormatter.ISO_INSTANT.format(ZonedDateTime.now())))

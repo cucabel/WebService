@@ -8,9 +8,9 @@ import com.statistics.domain.Transaction;
 
 public interface TransactionService {
 
-	public HttpStatus saveTransaction(Transaction transaction);
+	public HttpStatus save(Transaction transaction);
 
-	public void deleteTransactions();
+	public void deleteAll();
 
 	public List<Transaction> getAll();
 

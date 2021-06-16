@@ -22,36 +22,36 @@ public class TransactionTest {
 	@Test
 	public void testParse() {
 		// if amount is not parsed
-		Transaction t = new Transaction("9000", currentTimestamp);
-		assertEquals(false, t.parse());
+		Transaction trans = new Transaction("9000", currentTimestamp);
+		assertEquals(false, trans.validateIsParsed());
 
 		// if timeStamp is not parsed
-		t.setAmount("9000.00");
-		t.setTimestamp("2020-10-12T");
-		assertEquals(false, t.parse());
+		trans.setAmount("9000.00");
+		trans.setTimestamp("2020-10-12T");
+		assertEquals(false, trans.validateIsParsed());
 		
 		// if both are parsed
-		t.setAmount("9000.00");
-		t.setTimestamp(currentTimestamp);
-		assertEquals(true, t.parse());
+		trans.setAmount("9000.00");
+		trans.setTimestamp(currentTimestamp);
+		assertEquals(true, trans.validateIsParsed());
 	}
 
 	@Test
 	public void testFuture() {
-		Transaction t = new Transaction("9000.00", DateTimeFormatter.ISO_INSTANT.format(ZonedDateTime.now().plusSeconds(120)));
-		assertEquals(true, t.future());
+		Transaction trans = new Transaction("9000.00", DateTimeFormatter.ISO_INSTANT.format(ZonedDateTime.now().plusSeconds(120)));
+		assertEquals(true, trans.validateIsFuture());
 		
-		t.setTimestamp(currentTimestamp);
-		assertEquals(false, t.future());
+		trans.setTimestamp(currentTimestamp);
+		assertEquals(false, trans.validateIsFuture());
 	}
 
 	@Test
 	public void testOlder() {
-		Transaction t = new Transaction("9000.00", DateTimeFormatter.ISO_INSTANT.format(ZonedDateTime.now().minusSeconds(120)));
-		assertEquals(true, t.older());
+		Transaction trans = new Transaction("9000.00", DateTimeFormatter.ISO_INSTANT.format(ZonedDateTime.now().minusSeconds(120)));
+		assertEquals(true, trans.validateIsOlder());
 		
-		t.setTimestamp(currentTimestamp);
-		assertEquals(false, t.older());
+		trans.setTimestamp(currentTimestamp);
+		assertEquals(false, trans.validateIsOlder());
 	}
 
 }

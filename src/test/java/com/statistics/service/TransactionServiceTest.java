@@ -43,45 +43,45 @@ public class TransactionServiceTest {
 	@Test
 	public void testSaveTransaction() {				
 		// if the JSON is invalid
-		Transaction t0 = new Transaction(null, currentTimestamp);
-		Transaction t1 = new Transaction("9000.00", null);
-		assertEquals(HttpStatus.BAD_REQUEST, transactionServiceImpl.saveTransaction(t0));
-		assertEquals(HttpStatus.BAD_REQUEST, transactionServiceImpl.saveTransaction(t1));
+		Transaction trans0 = new Transaction(null, currentTimestamp);
+		Transaction trans1 = new Transaction("9000.00", null);
+		assertEquals(HttpStatus.BAD_REQUEST, transactionServiceImpl.save(trans0));
+		assertEquals(HttpStatus.BAD_REQUEST, transactionServiceImpl.save(trans1));
 
 		// if amount is not parsed
-		Transaction t2 = new Transaction("9000", currentTimestamp);
-		assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, transactionServiceImpl.saveTransaction(t2));
+		Transaction trans2 = new Transaction("9000", currentTimestamp);
+		assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, transactionServiceImpl.save(trans2));
 
 		// if timeStamp is not parsed
-		Transaction t3 = new Transaction("9000.00", "2020-10-12T");
-		assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, transactionServiceImpl.saveTransaction(t3));
+		Transaction trans3 = new Transaction("9000.00", "2020-10-12T");
+		assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, transactionServiceImpl.save(trans3));
 
 		// if the transaction date is in the future
 		String timeStamp0 = DateTimeFormatter.ISO_INSTANT.format(ZonedDateTime.now().plusSeconds(120));
-		Transaction t4 = new Transaction("9000.00", timeStamp0);
-		assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, transactionServiceImpl.saveTransaction(t4));
+		Transaction trans4 = new Transaction("9000.00", timeStamp0);
+		assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, transactionServiceImpl.save(trans4));
 
 		// if the transaction is older than 60 seconds
 		String timeStamp1 = DateTimeFormatter.ISO_INSTANT.format(ZonedDateTime.now().minusSeconds(120));
-		Transaction t5 = new Transaction("9000.00", timeStamp1);
-		assertEquals(HttpStatus.NO_CONTENT, transactionServiceImpl.saveTransaction(t5));
+		Transaction trans5 = new Transaction("9000.00", timeStamp1);
+		assertEquals(HttpStatus.NO_CONTENT, transactionServiceImpl.save(trans5));
 
 		// in case of success
-		Transaction t6 = new Transaction("9000.00", currentTimestamp);
+		Transaction trans6 = new Transaction("9000.00", currentTimestamp);
 		doNothing().when(transactionRepository).save(ArgumentMatchers.any(Transaction.class));
-		assertEquals(HttpStatus.CREATED, transactionServiceImpl.saveTransaction(t6));
+		assertEquals(HttpStatus.CREATED, transactionServiceImpl.save(trans6));
 	}
 
 	@Test
 	public void testGetAll() {		
-		Transaction t0 = new Transaction("1000.00", currentTimestamp);
-		Transaction t1 = new Transaction("-50.00", currentTimestamp);
+		Transaction trans0 = new Transaction("1000.00", currentTimestamp);
+		Transaction trans1 = new Transaction("-50.00", currentTimestamp);
 		List<Transaction> transactions = new ArrayList<>();
-		transactions.add(t0);
-		transactions.add(t1);
+		transactions.add(trans0);
+		transactions.add(trans1);
 		
 		when(transactionRepository.getAll()).thenReturn(transactions);	
-		assertEquals(Arrays.asList(t0, t1), transactionServiceImpl.getAll());
+		assertEquals(Arrays.asList(trans0, trans1), transactionServiceImpl.getAll());
 	}
 
 }

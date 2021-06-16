@@ -4,6 +4,6 @@ import com.statistics.domain.Statistic;
 
 public interface StatisticService {
 
-	public Statistic getStatistic();
+	public Statistic calcStatLast60SecTrans();
 
 }

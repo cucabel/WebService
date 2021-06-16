@@ -20,10 +20,10 @@ public class StatisticServiceImpl implements StatisticService {
 	TransactionRepository transactionsRepository;
 
 	@Override
-	public Statistic getStatistic() {
+	public Statistic calcStatLast60SecTrans() {
 
 		// transactions made in the last 60 seconds
-		List<String> amountsList = transactionsRepository.getAll()
+		List<String> amounts = transactionsRepository.getAll()
 				.stream()
 				.filter(t -> Instant.from(DateTimeFormatter.ISO_INSTANT.parse(t.getTimestamp()))
 						.isAfter(Instant.from(DateTimeFormatter.ISO_INSTANT.parse(DateTimeFormatter.ISO_INSTANT.format(ZonedDateTime.now()
@@ -31,9 +31,7 @@ public class StatisticServiceImpl implements StatisticService {
 				.map(t -> t.getAmount())
 				.collect(Collectors.toList());
 
-		Statistic statistic = new Statistic(amountsList);
-
-		return statistic;
+		return new Statistic(amounts);
 	}
 
 }

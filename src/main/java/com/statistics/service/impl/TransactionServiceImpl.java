@@ -17,31 +17,31 @@ public class TransactionServiceImpl implements TransactionService {
 	TransactionRepository transactionRepository;
 
 	@Override
-	public HttpStatus saveTransaction(Transaction t) {
+	public HttpStatus save(Transaction transaction) {
 
 		// if the JSON is invalid
-		if (t.getAmount() == null || t.getTimestamp() == null)
+		if (transaction.getAmount() == null || transaction.getTimestamp() == null)
 			return HttpStatus.BAD_REQUEST;
 		
 		// if any of the fields are not parsed
-		if (t.parse() == false)
+		if (transaction.validateIsParsed() == false)
 			return HttpStatus.UNPROCESSABLE_ENTITY;
 		
 		// if the transaction date is in the future
-		if (t.future() == true)
+		if (transaction.validateIsFuture() == true)
 			return HttpStatus.UNPROCESSABLE_ENTITY;
 		
 		// if the transaction is older than 60 seconds
-		if (t.older() == true)
+		if (transaction.validateIsOlder() == true)
 			return HttpStatus.NO_CONTENT;
 
 		// in case of success
-		transactionRepository.save(t);
+		transactionRepository.save(transaction);
 		return HttpStatus.CREATED;
 	}
 
 	@Override
-	public void deleteTransactions() {
+	public void deleteAll() {
 		transactionRepository.deleteAll();
 	}
 

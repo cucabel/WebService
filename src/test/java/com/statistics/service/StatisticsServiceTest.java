@@ -54,8 +54,7 @@ public class StatisticsServiceTest {
 	@Test
 	public void testGetStatistic() {
 		when(transactionRepository.getAll()).thenReturn(transactions);
-
-		assertEquals(statistic, statisticServiceImpl.getStatistic());
+		assertEquals(statistic, statisticServiceImpl.calcStatLast60SecTrans());
 	}
 
 }

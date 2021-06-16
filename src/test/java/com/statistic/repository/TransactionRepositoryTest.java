@@ -30,19 +30,19 @@ public class TransactionRepositoryTest {
 
 	@Test
 	public void testSave() {
-		Transaction t = new Transaction("-5000.00", currentTimestamp);
-		transactionRepository.save(t);
-		assertThat(transactionRepository.getAll()).contains(t);
+		Transaction trans = new Transaction("-5000.00", currentTimestamp);
+		transactionRepository.save(trans);
+		assertThat(transactionRepository.getAll()).contains(trans);
 	}
 
 	@Test
 	public void testGetAll() {
-		Transaction t = new Transaction("-5000.00", currentTimestamp);
-		Transaction t1 = new Transaction("400.00", currentTimestamp);
-		transactionRepository.save(t);
-		transactionRepository.save(t1);
+		Transaction trans = new Transaction("-5000.00", currentTimestamp);
+		Transaction trans1 = new Transaction("400.00", currentTimestamp);
+		transactionRepository.save(trans);
+		transactionRepository.save(trans1);
 
-		assertEquals(Arrays.asList(t, t1), transactionRepository.getAll());
+		assertEquals(Arrays.asList(trans, trans1), transactionRepository.getAll());
 	}
 
 	@Test

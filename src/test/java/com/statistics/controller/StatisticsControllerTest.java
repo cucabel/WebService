@@ -31,12 +31,12 @@ public class StatisticsControllerTest {
 	}
 
 	@Test
-	public void testLast60secTransactionsStatistic() {
+	public void testCalcStatLast60secTrans() {
 		Statistic statistic = new Statistic(Arrays.asList("9000.00"));
 		ResponseEntity<Statistic> response = new ResponseEntity<>(statistic, HttpStatus.OK);
 
-		when(statisticService.getStatistic()).thenReturn(statistic);
-		assertThat(statisticController.getStatistic().equals(response));
+		when(statisticService.calcStatLast60SecTrans()).thenReturn(statistic);
+		assertThat(statisticController.calcStatLast60SecTrans().equals(response));
 	}
 
 }

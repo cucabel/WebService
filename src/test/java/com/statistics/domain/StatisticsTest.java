@@ -15,23 +15,23 @@ public class StatisticsTest {
 	@Test
 	public void testStatistics() {
 
-		Statistic s = new Statistic();
-		s.statistics(Arrays.asList("-5000.00", "400.00", "6000.00"));
+		Statistic stat = new Statistic();
+		stat.calculateStatistics(Arrays.asList("-5000.00", "400.00", "6000.00"));
 
-		assertThat(s.getSum()).isEqualByComparingTo("1400.00");
-		assertThat(s.getAvg()).isEqualByComparingTo("466.67");
-		assertThat(s.getMax()).isEqualByComparingTo("6000.00");
-		assertThat(s.getMin()).isEqualByComparingTo("-5000.00");
-		assertEquals(3, s.getCount());
+		assertThat(stat.getSum()).isEqualByComparingTo("1400.00");
+		assertThat(stat.getAvg()).isEqualByComparingTo("466.67");
+		assertThat(stat.getMax()).isEqualByComparingTo("6000.00");
+		assertThat(stat.getMin()).isEqualByComparingTo("-5000.00");
+		assertEquals(3, stat.getCount());
 
 		// if there weren't transactions on the last 60 seconds
-		s.statistics(new ArrayList<String>());
+		stat.calculateStatistics(new ArrayList<String>());
 
-		assertThat(s.getSum()).isEqualByComparingTo("0.00");
-		assertThat(s.getAvg()).isEqualByComparingTo("0.00");
-		assertThat(s.getMax()).isEqualByComparingTo("0.00");
-		assertThat(s.getMin()).isEqualByComparingTo("0.00");
-		assertEquals(0, s.getCount());
+		assertThat(stat.getSum()).isEqualByComparingTo("0.00");
+		assertThat(stat.getAvg()).isEqualByComparingTo("0.00");
+		assertThat(stat.getMax()).isEqualByComparingTo("0.00");
+		assertThat(stat.getMin()).isEqualByComparingTo("0.00");
+		assertEquals(0, stat.getCount());
 
 	}
 
