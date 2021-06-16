@@ -26,7 +26,6 @@ public class StatisticsServiceTest {
 
 	@InjectMocks
 	StatisticServiceImpl statisticServiceImpl;
-	
 	@Mock
 	TransactionRepository transactionRepository;
 	
@@ -36,7 +35,6 @@ public class StatisticsServiceTest {
 	
 	@BeforeEach
 	public void init() {
-		
 		MockitoAnnotations.initMocks(this);
 
 		currentTimestamp = DateTimeFormatter.ISO_INSTANT.format(ZonedDateTime.now());
@@ -55,9 +53,8 @@ public class StatisticsServiceTest {
 
 	@Test
 	public void testGetStatistic() {
-		
 		when(transactionRepository.getAll()).thenReturn(transactions);
-		
+
 		assertEquals(statistic, statisticServiceImpl.getStatistic());
 	}
 
