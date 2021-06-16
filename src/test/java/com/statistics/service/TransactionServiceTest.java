@@ -28,7 +28,6 @@ public class TransactionServiceTest {
 
 	@InjectMocks
 	TransactionServiceImpl transactionServiceImpl;
-	
 	@Mock
 	TransactionRepository transactionRepository;
 
@@ -36,21 +35,17 @@ public class TransactionServiceTest {
 
 	@BeforeEach
 	public void variables() {
-		
 		MockitoAnnotations.initMocks(this);
 
 		currentTimestamp = DateTimeFormatter.ISO_INSTANT.format(ZonedDateTime.now());
 	}
 
 	@Test
-	public void testSaveTransaction() {
-		
-		doNothing().when(transactionRepository).save(ArgumentMatchers.any(Transaction.class));
-		
+	public void testSaveTransaction() {				
 		// if the JSON is invalid
 		Transaction t0 = new Transaction(null, currentTimestamp);
-		assertEquals(HttpStatus.BAD_REQUEST, transactionServiceImpl.saveTransaction(t0));
 		Transaction t1 = new Transaction("9000.00", null);
+		assertEquals(HttpStatus.BAD_REQUEST, transactionServiceImpl.saveTransaction(t0));
 		assertEquals(HttpStatus.BAD_REQUEST, transactionServiceImpl.saveTransaction(t1));
 
 		// if amount is not parsed
@@ -73,20 +68,19 @@ public class TransactionServiceTest {
 
 		// in case of success
 		Transaction t6 = new Transaction("9000.00", currentTimestamp);
+		doNothing().when(transactionRepository).save(ArgumentMatchers.any(Transaction.class));
 		assertEquals(HttpStatus.CREATED, transactionServiceImpl.saveTransaction(t6));
 	}
 
 	@Test
-	public void testGetAll() {
-		
+	public void testGetAll() {		
 		Transaction t0 = new Transaction("1000.00", currentTimestamp);
 		Transaction t1 = new Transaction("-50.00", currentTimestamp);
 		List<Transaction> transactions = new ArrayList<>();
 		transactions.add(t0);
 		transactions.add(t1);
 		
-		when(transactionRepository.getAll()).thenReturn(transactions);
-		
+		when(transactionRepository.getAll()).thenReturn(transactions);	
 		assertEquals(Arrays.asList(t0, t1), transactionServiceImpl.getAll());
 	}
 
