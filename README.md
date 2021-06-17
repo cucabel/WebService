@@ -1,5 +1,4 @@
 # WebService
-RESTfull API for statistics | JUnit | Gradle
 
 Pre-request script
 - postman.setEnvironmentVariable('isoTime',(new Date()).toISOString());
